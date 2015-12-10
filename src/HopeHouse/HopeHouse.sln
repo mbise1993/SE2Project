@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HopeHouse.Exe", "HopeHouse.Exe\HopeHouse.Exe.csproj", "{4D5CFADC-77BC-4802-9856-1FBAF6D51C7C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HopeHouse.Core", "HopeHouse.Core\HopeHouse.Core.csproj", "{577563F8-38A3-45FB-87AF-4C947A799D9F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HopeHouse.Presentation", "HopeHouse.Presentation\HopeHouse.Presentation.csproj", "{60398D02-79BF-4AF8-B3AF-9A9A9038A142}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HopeHouse.Common", "HopeHouse.Common\HopeHouse.Common.csproj", "{035DE38C-1061-4067-A900-3D6A1DE62CA1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4D5CFADC-77BC-4802-9856-1FBAF6D51C7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D5CFADC-77BC-4802-9856-1FBAF6D51C7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D5CFADC-77BC-4802-9856-1FBAF6D51C7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D5CFADC-77BC-4802-9856-1FBAF6D51C7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{577563F8-38A3-45FB-87AF-4C947A799D9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{577563F8-38A3-45FB-87AF-4C947A799D9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{577563F8-38A3-45FB-87AF-4C947A799D9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{577563F8-38A3-45FB-87AF-4C947A799D9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60398D02-79BF-4AF8-B3AF-9A9A9038A142}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60398D02-79BF-4AF8-B3AF-9A9A9038A142}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60398D02-79BF-4AF8-B3AF-9A9A9038A142}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60398D02-79BF-4AF8-B3AF-9A9A9038A142}.Release|Any CPU.Build.0 = Release|Any CPU
+		{035DE38C-1061-4067-A900-3D6A1DE62CA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{035DE38C-1061-4067-A900-3D6A1DE62CA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{035DE38C-1061-4067-A900-3D6A1DE62CA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{035DE38C-1061-4067-A900-3D6A1DE62CA1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

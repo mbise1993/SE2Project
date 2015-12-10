@@ -1,0 +1,242 @@
+﻿<UserControl x:Class="HopeHouse.Exe.Controls.PageControls.NewClientPage2"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:local="clr-namespace:HopeHouse.Exe.Controls.PageControls"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d">
+    
+    <Border BorderBrush="Black" BorderThickness="0.5" Margin="20">
+        <ScrollViewer Padding="20" VerticalScrollBarVisibility="Visible">
+            <Grid x:Name="BaseGrid">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Header -->
+                <TextBlock Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30" Text="Pregnancy"/>
+
+                <!-- Current pregnancy -->
+                <Grid Grid.Row="1" Margin="0,50,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <toolkit:WatermarkComboBox x:Name="CurrentlyPregnantComboBox" Grid.Column="0" Margin="20,0,20,0" VerticalAlignment="Center" 
+                                           HorizontalAlignment="Left" Height="28" Width="200" FontSize="14" Watermark="Currently Pregnant?" 
+                                           SelectedItem="{Binding ViewModel.CurrentlyPregnant,  Converter={StaticResource BoolToString}}">
+                        <ComboBoxItem>Yes</ComboBoxItem>
+                        <ComboBoxItem>No</ComboBoxItem>
+                        <ComboBoxItem>Unsure</ComboBoxItem>
+                    </toolkit:WatermarkComboBox>
+                </Grid>
+
+                <!-- Current pregnancy info -->
+                <Grid Grid.Row="2" Margin="0,50,0,0" Visibility="{Binding ElementName=CurrentlyPregnantComboBox, Path=SelectedItem,
+                  Converter={StaticResource YesNoToVisibility}, ConverterParameter=VisibleOnYes}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Margin="20,0,0,0" FontSize="20" Text="Current Pregnancy"/>
+                    <Grid Grid.Row="1" Margin="0,30,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <toolkit:WatermarkComboBox Grid.Column="0" Margin="20,0,20,0" VerticalAlignment="Center" Watermark="First Pregnancy?" 
+                                               Height="28" FontSize="14" SelectedItem="{Binding ViewModel.FirstPregnancy, 
+                                               Converter={StaticResource BoolToString}}">
+                            <ComboBoxItem>Yes</ComboBoxItem>
+                            <ComboBoxItem>No</ComboBoxItem>
+                        </toolkit:WatermarkComboBox>
+                        <toolkit:IntegerUpDown Grid.Column="1" Margin="0,0,20,0" VerticalAlignment="Center" Height="28" FontSize="14" 
+                                           Watermark="How Far Along? (Months)" Minimum="0" Maximum="9" Value="{Binding ViewModel.HowFarAlong}"/>
+                        <toolkit:DateTimePicker x:Name="DueDateDateTimePicker" Grid.Column="2" Margin="0,0,20,0" VerticalAlignment="Center" Height="28" FontSize="14"  
+                                            Watermark="Due Date" AutoCloseCalendar="True" TimePickerVisibility="Collapsed" Format="ShortDate"
+                                            Value="{Binding ViewModel.DueDate}"/>
+                        <toolkit:WatermarkComboBox Grid.Column="3" Margin="0,0,20,0" VerticalAlignment="Center" Watermark="Sex" 
+                                               Height="28" FontSize="14" SelectedItem="{Binding ViewModel.PregnancyGender}">
+                            <ComboBoxItem>Boy</ComboBoxItem>
+                            <ComboBoxItem>Girl</ComboBoxItem>
+                        </toolkit:WatermarkComboBox>
+                        <toolkit:WatermarkComboBox Grid.Column="4" Margin="0,0,20,0" VerticalAlignment="Center" Watermark="Intentions" 
+                                               Height="28" FontSize="14" SelectedItem="{Binding ViewModel.Intention}">
+                            <ComboBoxItem>Plan to Parent</ComboBoxItem>
+                            <ComboBoxItem>Adoption</ComboBoxItem>
+                            <ComboBoxItem>Abortion</ComboBoxItem>
+                            <ComboBoxItem>Undecided</ComboBoxItem>
+                        </toolkit:WatermarkComboBox>
+                    </Grid>
+                    <Grid Grid.Row="2" Margin="0,50,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <toolkit:WatermarkComboBox Grid.Column="0" Margin="20,0,20,0" VerticalAlignment="Center" Watermark="Pregnancy Was..." 
+                                               Height="28" FontSize="14" SelectedItem="{Binding ViewModel.PregnancyWas, 
+                                               Converter={StaticResource BoolToString}}">
+                            <ComboBoxItem>Planned</ComboBoxItem>
+                            <ComboBoxItem>Unplanned and upsetting at first</ComboBoxItem>
+                            <ComboBoxItem>Unplanned but happy about it</ComboBoxItem>
+                        </toolkit:WatermarkComboBox>
+                        <toolkit:WatermarkComboBox Grid.Column="1" Margin="0,0,20,0" VerticalAlignment="Center" Watermark="On Birth Control?" 
+                                               Height="28" FontSize="14" SelectedItem="{Binding ViewModel.BirthControl,
+                                               Converter={StaticResource BoolToString}}">
+                            <ComboBoxItem>Yes</ComboBoxItem>
+                            <ComboBoxItem>No</ComboBoxItem>
+                        </toolkit:WatermarkComboBox>
+                        <toolkit:WatermarkComboBox Grid.Column="2" Margin="0,0,20,0" VerticalAlignment="Center" Watermark="Pregnancy Verified?" 
+                                               Height="28" FontSize="14" SelectedItem="{Binding ViewModel.VerifiedPregnancy,
+                                               Converter={StaticResource BoolToString}}">
+                            <ComboBoxItem>Yes</ComboBoxItem>
+                            <ComboBoxItem>No</ComboBoxItem>
+                        </toolkit:WatermarkComboBox>
+                        <toolkit:WatermarkComboBox Grid.Column="3" Margin="0,0,20,0" VerticalAlignment="Center" Watermark="Taking Vitamins?" 
+                                               Height="28" FontSize="14" SelectedItem="{Binding ViewModel.PrenatalVitamins,
+                                               Converter={StaticResource BoolToString}}">
+                            <ComboBoxItem>Yes</ComboBoxItem>
+                            <ComboBoxItem>No</ComboBoxItem>
+                        </toolkit:WatermarkComboBox>
+                    </Grid>
+                    <Grid Grid.Row="3" Margin="0,50,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <toolkit:WatermarkTextBox Grid.Column="0" Margin="20,0,20,0" VerticalAlignment="Center" Height="28" FontSize="14" 
+                                              Watermark="Medical Insurance" Text="{Binding ViewModel.MedInsurance, UpdateSourceTrigger=PropertyChanged}"/>
+                        <toolkit:WatermarkTextBox Grid.Column="1"  Margin="0,0,20,0" VerticalAlignment="Center" Height="28" FontSize="14" 
+                                              Watermark="OB Doctor" Text="{Binding ViewModel.OB, UpdateSourceTrigger=PropertyChanged}"/>
+                        <toolkit:WatermarkTextBox Grid.Column="2"  Margin="0,0,20,0" VerticalAlignment="Center" Height="28" FontSize="14" 
+                                              Watermark="Pediatrician" Text="{Binding ViewModel.Pediatrician, UpdateSourceTrigger=PropertyChanged}"/>
+                    </Grid>
+                </Grid>
+
+                <!-- Pregnancy history -->
+                <Grid Grid.Row="3" Margin="0,50,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Margin="20,0,0,0" FontSize="20" Text="Pregnancy History"/>
+                    <Grid Grid.Row="1" Margin="0,30,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <toolkit:IntegerUpDown Grid.Column="0" Margin="20,0,20,0" VerticalAlignment="Center" Height="28" FontSize="14"
+                                           Watermark="Carried to Term" Minimum="0" Maximum="10" Value="{Binding ViewModel.CarriedToTerm}"/>
+                        <toolkit:IntegerUpDown Grid.Column="1" Margin="0,0,20,0" VerticalAlignment="Center" Height="28" FontSize="14" 
+                                           Watermark="Miscarriages" Minimum="0" Maximum="10" Value="{Binding ViewModel.Miscarriages}"/>
+                        <toolkit:IntegerUpDown Grid.Column="2" Margin="0,0,20,0" VerticalAlignment="Center" Height="28" FontSize="14" 
+                                           Watermark="Abortions" Minimum="0" Maximum="10" Value="{Binding ViewModel.Abortions}"/>
+                        <toolkit:IntegerUpDown Grid.Column="3" Margin="0,0,20,0" VerticalAlignment="Center" Height="28" FontSize="14" 
+                                           Watermark="Adoptions" Minimum="0" Maximum="10" Value="{Binding ViewModel.Adoptions}"/>
+                    </Grid>
+                </Grid>
+
+                <!-- Children -->
+                <Grid Grid.Row="4" Margin="0,50,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Margin="20,0,0,0" FontSize="20" Text="Children"/>
+                    <Grid Grid.Row="1" Margin="0,30,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <toolkit:WatermarkTextBox Grid.Column="0" Margin="20,0,20,0" VerticalAlignment="Center" Height="28" FontSize="14"  
+                                              Watermark="First Name" Text="{Binding ViewModel.ChildFirstName, UpdateSourceTrigger=PropertyChanged}"/>
+                        <toolkit:WatermarkTextBox Grid.Column="1"  Margin="0,0,20,0" VerticalAlignment="Center" Height="28" FontSize="14" 
+                                              Watermark="Last Name" Text="{Binding ViewModel.ChildLastName, UpdateSourceTrigger=PropertyChanged}"/>
+                        <toolkit:WatermarkTextBox Grid.Column="2"  Margin="0,0,20,0" VerticalAlignment="Center" Height="28" FontSize="14"  
+                                              Watermark="MI" Text="{Binding ViewModel.ChildMiddleInit, UpdateSourceTrigger=PropertyChanged}"/>
+                        <toolkit:DateTimePicker x:Name="ChildBDayDateTimePicker" Grid.Column="3" Margin="0,0,20,0" VerticalAlignment="Center" Height="28" FontSize="14"  
+                                            Watermark="Birth Date" AutoCloseCalendar="True" TimePickerVisibility="Collapsed" Format="ShortDate"
+                                            Value="{Binding ViewModel.ChildBirthDate}"/>
+                    </Grid>
+                    <Grid Grid.Row="2" Margin="0,30,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <toolkit:WatermarkTextBox Grid.Column="0" Margin="20,0,20,0" VerticalAlignment="Center" Height="28" FontSize="14"  
+                                              Watermark="Pediatrician" Text="{Binding ViewModel.ChildPediatrician, UpdateSourceTrigger=PropertyChanged}"/>
+                        <toolkit:WatermarkComboBox Grid.Column="1" Margin="0,0,20,0" VerticalAlignment="Center" Watermark="Receiving Healthcare?" 
+                                               Height="28" FontSize="14" SelectedItem="{Binding ViewModel.ReceivingHealthcare, 
+                                               Converter={StaticResource BoolToString}}">
+                            <ComboBoxItem>Yes</ComboBoxItem>
+                            <ComboBoxItem>No</ComboBoxItem>
+                        </toolkit:WatermarkComboBox>
+                        <toolkit:WatermarkComboBox Grid.Column="2" Margin="0,0,20,0" VerticalAlignment="Center" Watermark="In Daycare?" 
+                                               Height="28" FontSize="14" SelectedItem="{Binding ViewModel.InDaycare, 
+                                               Converter={StaticResource BoolToString}}">
+                            <ComboBoxItem>Yes</ComboBoxItem>
+                            <ComboBoxItem>No</ComboBoxItem>
+                        </toolkit:WatermarkComboBox>
+                        <toolkit:WatermarkComboBox Grid.Column="3" Margin="0,0,20,0" VerticalAlignment="Center" Watermark="Disabled?" 
+                                               Height="28" FontSize="14" SelectedItem="{Binding ViewModel.Disabled, 
+                                               Converter={StaticResource BoolToString}}">
+                            <ComboBoxItem>Yes</ComboBoxItem>
+                            <ComboBoxItem>No</ComboBoxItem>
+                        </toolkit:WatermarkComboBox>
+                    </Grid>
+                    <Button Grid.Row="3" Style="{StaticResource RoundedButtonStyle}" Content="Add Child" VerticalAlignment="Center"
+                    Margin="20,30,0,0" HorizontalAlignment="Left" Command="{Binding ViewModel.AddChildCommand}"/>
+                    <DataGrid Grid.Row="4" Margin="20,30,0,0" VerticalAlignment="Center" AutoGenerateColumns="False" IsReadOnly="True"
+                              RowStyle="{StaticResource DefaultDataGridRowStyle}" CellStyle="{StaticResource DefaultDataGridCellStyle}"
+                              Visibility="{Binding ViewModel.HasChildren, Converter={StaticResource BoolToVisibility},
+                              ConverterParameter=VisibleOnTrue}" GridLinesVisibility="None" ItemsSource="{Binding ViewModel.Children}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Width="*" Header="Name" Binding="{Binding}"/>
+                            <DataGridTextColumn Width="*" Header="Birth Date" Binding="{Binding BirthDate}"/>
+                            <DataGridTextColumn Width="*" Header="Receiving Healthcare?" Binding="{Binding ReceivingHealthcare, 
+                                            Converter={StaticResource BoolToString}}"/>
+                            <DataGridTextColumn Width="*" Header="In Daycare?" Binding="{Binding InDaycare, 
+                                            Converter={StaticResource BoolToString}}"/>
+                            <DataGridTextColumn Width="*" Header="Disabled?" Binding="{Binding Disabled, 
+                                            Converter={StaticResource BoolToString}}"/>
+                            <DataGridTemplateColumn Width="0.5*" Header="Delete">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Height="15" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                            Style="{StaticResource TransparentButtonStyle}" Command="{Binding ElementName=BaseGrid, 
+                                            Path=DataContext.(local:NewClientPage2.ViewModel).DeleteChildCommand}" CommandParameter="{Binding}">
+                                            <Image Source="pack://application:,,,/HopeHouse.Common;component/Resources/DeleteBlack.png"/>
+                                        </Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </Grid>
+        </ScrollViewer>
+    </Border>
+</UserControl>

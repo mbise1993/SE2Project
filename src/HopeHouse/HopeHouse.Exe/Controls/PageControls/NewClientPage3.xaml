@@ -1,0 +1,190 @@
+﻿<UserControl x:Class="HopeHouse.Exe.Controls.PageControls.NewClientPage3"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:converters="clr-namespace:HopeHouse.Presentation.Converters;assembly=HopeHouse.Presentation"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <converters:EducationToVisibilityConverter x:Key="EducationToVisibility"/>
+    </UserControl.Resources>
+    
+    <Border BorderBrush="Black" BorderThickness="0.5" Margin="20">
+        <ScrollViewer Padding="20" VerticalScrollBarVisibility="Visible">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Header -->
+                <TextBlock Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30" Text="Housing/Education/Employment"/>
+
+                <!-- Housing info -->
+                <Grid Grid.Row="1" Margin="0,50,0,0" Visibility="{Binding ElementName=CurrentlyPregnantComboBox, Path=SelectedItem,
+                  Converter={StaticResource YesNoToVisibility}}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Margin="20,0,0,0" FontSize="20" Text="Housing"/>
+                    <Grid Grid.Row="1" Margin="0,30,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <toolkit:WatermarkComboBox Grid.Column="0" Margin="20,0,20,0" VerticalAlignment="Center" Watermark="Housing Situation" 
+                                               Height="28" FontSize="14" SelectedItem="{Binding ViewModel.HousingStatus}">
+                            <ComboBoxItem>Own home</ComboBoxItem>
+                            <ComboBoxItem>Rent apt./home (not gov't housing)</ComboBoxItem>
+                            <ComboBoxItem>Gov't housing (Lee, Cloud)</ComboBoxItem>
+                            <ComboBoxItem>Section 8 housing</ComboBoxItem>
+                            <ComboBoxItem>With parents</ComboBoxItem>
+                            <ComboBoxItem>With relative</ComboBoxItem>
+                            <ComboBoxItem>With boyfriend</ComboBoxItem>
+                            <ComboBoxItem>With boyfriend's family</ComboBoxItem>
+                            <ComboBoxItem>With a friend</ComboBoxItem>
+                            <ComboBoxItem>Varies</ComboBoxItem>
+                            <ComboBoxItem>Homeless</ComboBoxItem>
+                            <ComboBoxItem>Other</ComboBoxItem>
+                        </toolkit:WatermarkComboBox>
+                        <toolkit:WatermarkTextBox Grid.Column="1" Margin="0,0,20,0" VerticalAlignment="Center" Height="28" FontSize="14" 
+                                              Watermark="Notes" Text="{Binding ViewModel.HousingNotes, UpdateSourceTrigger=PropertyChanged}"/>
+                    </Grid>
+                </Grid>
+
+                <!-- Education info -->
+                <Grid Grid.Row="2" Margin="0,50,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Margin="20,0,0,0" FontSize="20" Text="Education"/>
+                    <Grid Grid.Row="1" Margin="0,30,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <toolkit:WatermarkComboBox x:Name="EducationComboBox" Grid.Column="0" Margin="20,0,20,0" VerticalAlignment="Center" 
+                                               Watermark="Amount of Education" Height="28" FontSize="14" SelectedItem="{Binding ViewModel.Education}">
+                            <ComboBoxItem>Graduated highschool</ComboBoxItem>
+                            <ComboBoxItem>Dropped Out</ComboBoxItem>
+                            <ComboBoxItem>Earned GED</ComboBoxItem>
+                            <ComboBoxItem>In GED program</ComboBoxItem>
+                            <ComboBoxItem>In college</ComboBoxItem>
+                            <ComboBoxItem>Graduated college</ComboBoxItem>
+                        </toolkit:WatermarkComboBox>
+                        <toolkit:WatermarkTextBox Grid.Column="1" Margin="0,0,20,0" VerticalAlignment="Center" Height="28" FontSize="14" 
+                                              Watermark="Drop Out Grade" Text="{Binding ViewModel.DropOutGrade, UpdateSourceTrigger=PropertyChanged}"
+                                              Visibility="{Binding ElementName=EducationComboBox, Path=SelectedItem, 
+                                              Converter={StaticResource EducationToVisibility}, ConverterParameter=VisibleOnDroppedOut}"/>
+                    </Grid>
+                    <Grid Grid.Row="2" Margin="0,30,0,0" Visibility="{Binding ElementName=EducationComboBox, Path=SelectedItem, 
+                      Converter={StaticResource EducationToVisibility}, ConverterParameter=VisibleOnInSchool}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <toolkit:WatermarkTextBox Grid.Column="0" Margin="20,0,20,0" VerticalAlignment="Center" Height="28" FontSize="14" 
+                                              Watermark="School" Text="{Binding ViewModel.SchoolName, UpdateSourceTrigger=PropertyChanged}"/>
+                        <toolkit:WatermarkTextBox Grid.Column="1" Margin="0,0,20,0" VerticalAlignment="Center" Height="28" FontSize="14" 
+                                              Watermark="Graduation Year" Text="{Binding ViewModel.GraduationYear, UpdateSourceTrigger=PropertyChanged}"/>
+                        <toolkit:WatermarkComboBox Grid.Column="2" Margin="20,0,20,0" VerticalAlignment="Center" Watermark="Full Time/Part Time" 
+                                               Height="28" FontSize="14" SelectedItem="{Binding ViewModel.FullTimePartTime}">
+                            <ComboBoxItem>Full time</ComboBoxItem>
+                            <ComboBoxItem>Part time</ComboBoxItem>
+                        </toolkit:WatermarkComboBox>
+                        <toolkit:WatermarkTextBox Grid.Column="3" Margin="0,0,20,0" VerticalAlignment="Center" Height="28" FontSize="14" 
+                                              Watermark="Pursuing (Degree/Certification)" Text="{Binding ViewModel.Pursuing, UpdateSourceTrigger=PropertyChanged}"/>
+                    </Grid>
+                </Grid>
+
+                <!-- Employment info -->
+                <Grid Grid.Row="3" Margin="0,50,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Margin="20,0,0,0" FontSize="20" Text="Employment"/>
+                    <Grid Grid.Row="1" Margin="0,30,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <toolkit:WatermarkComboBox x:Name="WorkingComboBox" Grid.Column="0" Margin="20,0,20,0" VerticalAlignment="Center" 
+                                               Watermark="Currently Working?" Height="28" FontSize="14" SelectedItem="{Binding ViewModel.Working}">
+                            <ComboBoxItem>Yes</ComboBoxItem>
+                            <ComboBoxItem>No</ComboBoxItem>
+                        </toolkit:WatermarkComboBox>
+                    </Grid>
+                    <Grid Grid.Row="2" Margin="0,30,0,0" Visibility="{Binding ElementName=WorkingComboBox, Path=SelectedItem, 
+                      Converter={StaticResource YesNoToVisibility}, ConverterParameter=VisibleOnYes}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <toolkit:WatermarkTextBox Grid.Column="0" Margin="20,0,20,0" VerticalAlignment="Center" Height="28" FontSize="14" 
+                                              Watermark="Employer" Text="{Binding ViewModel.Employer, UpdateSourceTrigger=PropertyChanged}"/>
+                        <toolkit:IntegerUpDown Grid.Column="1" Margin="0,0,20,0" VerticalAlignment="Center" Height="28" FontSize="14"
+                                           Watermark="Hours per Week" Minimum="0" Maximum="100" Value="{Binding ViewModel.WeeklyHours}"/>
+                        <toolkit:WatermarkComboBox Grid.Column="2" Margin="0,0,20,0" VerticalAlignment="Center" Watermark="Making a livable wage?" 
+                                               Height="28" FontSize="14" SelectedItem="{Binding ViewModel.LiveableWage,
+                                               Converter={StaticResource BoolToString}}">
+                            <ComboBoxItem>Yes</ComboBoxItem>
+                            <ComboBoxItem>No</ComboBoxItem>
+                        </toolkit:WatermarkComboBox>
+                    </Grid>
+                    <Grid Grid.Row="2" Margin="0,30,0,0" Visibility="{Binding ElementName=WorkingComboBox, Path=SelectedItem, 
+                      Converter={StaticResource YesNoToVisibility}, ConverterParameter=VisibleOnNo}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <toolkit:WatermarkTextBox Grid.Column="0" Margin="20,0,20,0" VerticalAlignment="Center" Height="28" FontSize="14" 
+                                              Watermark="Why Not?" Text="{Binding ViewModel.ReasonNotWorking, UpdateSourceTrigger=PropertyChanged}"/>
+                            <toolkit:WatermarkComboBox x:Name="DisabilityComboBox" Grid.Column="1" Margin="0,0,20,0" VerticalAlignment="Center" Watermark="On Disability?" 
+                                               Height="28" FontSize="14" SelectedItem="{Binding ViewModel.ReceivingDisability,
+                                               Converter={StaticResource BoolToString}}">
+                                <ComboBoxItem>Yes</ComboBoxItem>
+                                <ComboBoxItem>No</ComboBoxItem>
+                            </toolkit:WatermarkComboBox>
+                            <toolkit:WatermarkComboBox Grid.Column="2" Margin="0,0,20,0" VerticalAlignment="Center" Watermark="Applying for Disability?" 
+                                               Height="28" FontSize="14" SelectedItem="{Binding ViewModel.ApplyingForDisability,
+                                               Converter={StaticResource BoolToString}}" Visibility="{Binding ElementName=DisabilityComboBox,
+                                               Path=SelectedItem, Converter={StaticResource YesNoToVisibility}, ConverterParameter=VisibleOnNo}">
+                                <ComboBoxItem>Yes</ComboBoxItem>
+                                <ComboBoxItem>No</ComboBoxItem>
+                            </toolkit:WatermarkComboBox>
+                        </Grid>
+                        <Grid Grid.Row="1" Margin="0,30,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <toolkit:WatermarkComboBox Grid.Column="0" Margin="20,0,20,0" VerticalAlignment="Center" Watermark="Willing to Pursue Work?" 
+                                               Height="28" FontSize="14" SelectedItem="{Binding ViewModel.WillPursueWork,
+                                               Converter={StaticResource BoolToString}}">
+                                <ComboBoxItem>Yes</ComboBoxItem>
+                                <ComboBoxItem>No</ComboBoxItem>
+                            </toolkit:WatermarkComboBox>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </ScrollViewer>
+    </Border>
+</UserControl>

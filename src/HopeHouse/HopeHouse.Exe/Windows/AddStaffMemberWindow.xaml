@@ -1,0 +1,74 @@
+﻿<Window x:Class="HopeHouse.Exe.Windows.AddStaffMemberWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:viewModels="clr-namespace:HopeHouse.Presentation.ViewModels;assembly=HopeHouse.Presentation"
+        WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode="NoResize"
+        Title="Add Staff Member" Height="350" Width="500" BorderBrush="#2895CF" BorderThickness="1">
+    <Window.DataContext>
+        <viewModels:AddStaffMemberViewModel/>
+    </Window.DataContext>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <TextBlock Grid.Row="0" Margin="20,20,20,0" FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Center" Text="Add Staff Member"/>
+
+        <Grid Grid.Row="1" Margin="20,30,20,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="0.25*"/>
+            </Grid.ColumnDefinitions>
+            <toolkit:WatermarkTextBox Grid.Column="0" Margin="0,0,20,0" Watermark="First Name" Height="28" FontSize="14" VerticalAlignment="Center" 
+                                      Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}"/>
+            <toolkit:WatermarkTextBox Grid.Column="1" Margin="0,0,20,0" Watermark="Last Name" Height="28" FontSize="14" VerticalAlignment="Center" 
+                                      Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}"/>
+            <toolkit:WatermarkTextBox Grid.Column="2" Margin="0,0,0,0" Watermark="MI" Height="28" FontSize="14" VerticalAlignment="Center"
+                                      Text="{Binding MiddleInit, UpdateSourceTrigger=PropertyChanged}"/>
+        </Grid>
+        
+        <Grid Grid.Row="2" Margin="20,30,20,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <toolkit:WatermarkTextBox Grid.Column="0" Margin="0,0,20,0" Watermark="Username" Height="28" FontSize="14" VerticalAlignment="Center"
+                                      Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}"/>
+            <toolkit:WatermarkTextBox Grid.Column="1" Margin="0,0,20,0" Watermark="Password" Height="28" FontSize="14" VerticalAlignment="Center"
+                                      Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}"/>
+            <toolkit:WatermarkTextBox Grid.Column="2" Margin="0,0,0,0" Watermark="Phone Number" Height="28" FontSize="14" VerticalAlignment="Center"
+                                      Text="{Binding PhoneNumber, UpdateSourceTrigger=PropertyChanged}"/>
+        </Grid>
+
+        <Grid Grid.Row="3" Margin="20,30,20,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <CheckBox Grid.Column="0" Margin="0,0,10,0" VerticalAlignment="Center" IsChecked="{Binding IsAdministrator}"/>
+            <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14" Text="Administrator"/>
+        </Grid>
+
+        <Grid Grid.Row="4" Margin="20,30,20,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Style="{StaticResource RoundedButtonStyle}" VerticalAlignment="Center" HorizontalAlignment="Center" 
+                    Content="Cancel" Command="{Binding CancelCommand}"/>
+            <Button Grid.Column="1" Style="{StaticResource RoundedButtonStyle}" VerticalAlignment="Center" HorizontalAlignment="Center" 
+                    Content="Add Staff" Command="{Binding AddStaffMemberCommand}"/>
+        </Grid>
+    </Grid>
+</Window>

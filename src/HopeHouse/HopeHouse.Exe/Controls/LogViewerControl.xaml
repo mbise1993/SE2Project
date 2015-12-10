@@ -1,0 +1,52 @@
+﻿<UserControl x:Class="HopeHouse.Exe.Controls.LogViewerControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+             mc:Ignorable="d">
+
+    <!-- Use grid for layout -->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <!-- Search functionality for properties -->
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+
+            <toolkit:WatermarkComboBox x:Name="SearchOptionsComboBox" Grid.Column="0" Margin="2,2,2,2" Watermark="Search by..."
+                                       SelectedItem="{Binding ViewModel.SearchBy}" ItemsSource="{Binding ViewModel.SearchOptions}"/>
+            <toolkit:WatermarkTextBox x:Name="SearchStringTextBox" Grid.Column="1" Margin="2,2,2,2" Watermark="Search for..."
+                                      IsEnabled="{Binding ViewModel.IsSearchStringTextBoxEnabled, Mode=OneWay}" 
+                                      Text="{Binding ViewModel.SearchString, UpdateSourceTrigger=PropertyChanged}"/>
+        </Grid>
+
+        <!-- Datagrid to display log entries -->
+        <DataGrid x:Name="DisplayDataGrid" Grid.Row="1" Margin="4,4,4,4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                  AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding ViewModel.LogEntries}" CanUserSortColumns="True" 
+                  CanUserResizeColumns="True" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto"
+                  GridLinesVisibility="None" CellStyle="{StaticResource DefaultDataGridCellStyle}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="*" Header="Property" Binding="{Binding LogEntry.UserFullName}" SortDirection="Ascending"/>
+                <DataGridTextColumn Width="*" Header="Username" Binding="{Binding LogEntry.UserUserName}"/>
+                <DataGridTextColumn Width="*" Header="Date" Binding="{Binding LogEntry.Date, StringFormat=d}"/>
+                <DataGridTextColumn Width="2*" Header="Action" Binding="{Binding LogEntry.UserAction}"/>
+            </DataGrid.Columns>
+            <DataGrid.RowStyle>
+                <Style TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource DefaultDataGridRowStyle}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsDisplayed}" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
+        </DataGrid>
+    </Grid>
+</UserControl>

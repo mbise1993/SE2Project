@@ -1,0 +1,68 @@
+﻿<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:iex="http://schemas.microsoft.com/expression/2010/interactions"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit" x:Class="HopeHouse.Exe.Windows.LoginWindow"
+        xmlns:viewModels="clr-namespace:HopeHouse.Presentation.ViewModels;assembly=HopeHouse.Presentation"
+        mc:Ignorable="d" BorderBrush="#2895CF" BorderThickness="1"
+        Title="Login" Height="300" Width="369.6" Background="White" WindowStyle="None" ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen">
+    <!-- Set data context to LoginWindowViewModel -->
+    <Window.DataContext>
+        <viewModels:LoginWindowViewModel/>
+    </Window.DataContext>
+
+    <!-- Use grid layout -->
+    <Grid Margin="0,0,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1.8*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        
+        <!-- Display text and logo -->
+        <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock HorizontalAlignment="Center" Text="Hope House" Foreground="#2895CF" FontFamily="Kristen ITC" FontSize="30"/>
+            <TextBlock HorizontalAlignment="Center" Text="Staff Login" Foreground="#2895CF"  FontSize="15"/>
+        </StackPanel>
+
+        <!-- TextBlock for displaying error messages -->
+        <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,4,0,4" TextWrapping="Wrap" Foreground="Red" 
+                   HorizontalAlignment="Center" Text="{Binding ErrorMessage, Mode=OneWay}" Visibility="{Binding HasError,  
+                   Converter={StaticResource BoolToVisibility}, ConverterParameter=VisibleOnTrue}"/>
+        
+        <!-- UserName textbox -->
+        <toolkit:WatermarkTextBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,0,4" TextWrapping="Wrap" Watermark="User Name" 
+                               FontSize="14" BorderBrush="#2895CF" Height="28" HorizontalAlignment="Center" VerticalAlignment="Center"
+                               Width="230" Text="{Binding UserName, Mode=TwoWay}"/>
+        <!-- Password box facade -->
+        <toolkit:WatermarkTextBox x:Name="PasswordBoxFacade" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,0,4" TextWrapping="Wrap" 
+                               FontSize="14" Watermark="Password" VerticalAlignment="Center" HorizontalAlignment="Center" BorderBrush="#2895CF" 
+                               Height="28" Width="230" GotFocus="passwordBoxFacade_GotFocus">
+            <i:Interaction.Triggers>
+                <iex:KeyTrigger Key="Enter">
+                    <i:InvokeCommandAction Command="{Binding LogInCommand}" />
+                </iex:KeyTrigger>
+            </i:Interaction.Triggers>
+        </toolkit:WatermarkTextBox>
+        <!-- Actual password box -->
+        <PasswordBox x:Name="PasswordBox" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,0,4" FontSize="14" BorderBrush="#2895CF" 
+                     Height="28" Width="230" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed"
+                     LostFocus="passwordBox_LostFocus" PasswordChanged="passwordBox_PasswordChanged"/>
+
+        <!-- Cancel button -->
+        <Button Grid.Row="4" Grid.Column="0" Content="Cancel" Margin="0,0,0,4" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                Style="{StaticResource RoundedButtonStyle}" Command="{Binding CancelCommand, Mode=OneWay}"/>
+        <!-- Login button -->
+        <Button Grid.Row="4" Grid.Column="1" Content="Login" Margin="0,0,0,4" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                Style="{StaticResource RoundedButtonStyle}" Command="{Binding LogInCommand, Mode=OneWay}"/>
+    </Grid>
+</Window>

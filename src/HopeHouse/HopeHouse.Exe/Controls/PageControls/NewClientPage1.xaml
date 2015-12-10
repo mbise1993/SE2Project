@@ -1,0 +1,163 @@
+﻿<UserControl x:Class="HopeHouse.Exe.Controls.PageControls.NewClientPage1"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:converters="clr-namespace:HopeHouse.Presentation.Converters;assembly=HopeHouse.Presentation"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <converters:MaritalStatusToVisibilityConverter x:Key="MaritalStatusToVisibility"/>
+    </UserControl.Resources>
+
+    <Border BorderBrush="Black" BorderThickness="0.5" Margin="20">
+        <ScrollViewer Padding="20" VerticalScrollBarVisibility="Visible">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Header -->
+                <TextBlock Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30" Text="Hope House Client Information"/>
+
+                <!-- Name -->
+                <Grid Grid.Row="1" Margin="0,50,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="0.25*"/>
+                    </Grid.ColumnDefinitions>
+                    <toolkit:WatermarkTextBox Grid.Column="0" Margin="20,0,20,0" VerticalAlignment="Center" Height="28" FontSize="14" 
+                                              Watermark="First Name" Text="{Binding ViewModel.FirstName, UpdateSourceTrigger=PropertyChanged}"/>
+                    <toolkit:WatermarkTextBox Grid.Column="1"  Margin="0,0,20,0" VerticalAlignment="Center" Height="28" FontSize="14" 
+                                              Watermark="Last Name" Text="{Binding ViewModel.LastName, UpdateSourceTrigger=PropertyChanged}"/>
+                    <toolkit:WatermarkTextBox Grid.Column="2"  Margin="0,0,20,0" VerticalAlignment="Center" Height="28" FontSize="14" 
+                                              Watermark="MI" Text="{Binding ViewModel.MiddleInitial, UpdateSourceTrigger=PropertyChanged}"/>
+                </Grid>
+
+                <!-- Phone numbers -->
+                <Grid Grid.Row="2" Margin="0,50,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <toolkit:WatermarkTextBox Grid.Column="0" Margin="20,0,20,0" VerticalAlignment="Center" Height="28" FontSize="14" 
+                                              Watermark="Home Phone" Text="{Binding ViewModel.HomeNumber, UpdateSourceTrigger=LostFocus}"/>
+                    <toolkit:WatermarkTextBox Grid.Column="1" Margin="0,0,20,0" VerticalAlignment="Center" Height="28" FontSize="14" 
+                                              Watermark="Cell Phone" Text="{Binding ViewModel.CellNumber, UpdateSourceTrigger=LostFocus}"/>
+                </Grid>
+
+                <!-- Address -->
+                <Grid Grid.Row="3" Margin="0,50,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="5*"/>
+                        <ColumnDefinition Width="4*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <toolkit:WatermarkTextBox Grid.Column="0" Margin="20,0,20,0" VerticalAlignment="Center" Height="28" FontSize="14" 
+                                              Watermark="Address" Text="{Binding ViewModel.Address, UpdateSourceTrigger=PropertyChanged}"/>
+                    <toolkit:WatermarkTextBox Grid.Column="1" Margin="0,0,20,0" VerticalAlignment="Center" Height="28" FontSize="14" 
+                                              Watermark="City" Text="{Binding ViewModel.City, UpdateSourceTrigger=PropertyChanged}"/>
+                    <toolkit:WatermarkTextBox Grid.Column="2" Margin="0,0,20,0" VerticalAlignment="Center" Height="28" FontSize="14" 
+                                              Watermark="State" Text="{Binding ViewModel.State, UpdateSourceTrigger=PropertyChanged}"/>
+                    <toolkit:WatermarkTextBox Grid.Column="3" Margin="0,0,20,0" VerticalAlignment="Center" Height="28" FontSize="14" 
+                                              Watermark="Zip" Text="{Binding ViewModel.Zip, UpdateSourceTrigger=PropertyChanged}"/>
+                </Grid>
+
+                <!-- Other info -->
+                <Grid Grid.Row="4" Margin="0,50,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.5*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <toolkit:IntegerUpDown Grid.Column="0" Margin="20,0,20,0" VerticalAlignment="Center" Height="28" FontSize="14" 
+                                           Watermark="Age" Minimum="0" Maximum="100" Value="{Binding ViewModel.Age}"/>
+                    <toolkit:DateTimePicker x:Name="BDayDateTimePicker" Grid.Column="1" Margin="0,0,20,0" VerticalAlignment="Center" Height="28" FontSize="14"  
+                                            Watermark="Birth Date" AutoCloseCalendar="True" TimePickerVisibility="Collapsed" Format="ShortDate" 
+                                            Value="{Binding ViewModel.BirthDate}"/>
+                    <toolkit:WatermarkTextBox Grid.Column="2" Margin="0,0,20,0" VerticalAlignment="Center" Height="28" FontSize="14"  
+                                              Watermark="Race" Text="{Binding ViewModel.Race, UpdateSourceTrigger=PropertyChanged}"/>
+                    <toolkit:WatermarkComboBox x:Name="MaritalStatusComboBox" Grid.Column="3" Margin="0,0,20,0" VerticalAlignment="Center" 
+                                               Height="28" FontSize="14" Watermark="Marital Status" SelectedItem="{Binding ViewModel.MaritalStatus}">
+                        <ComboBoxItem>Single</ComboBoxItem>
+                        <ComboBoxItem>Married</ComboBoxItem>
+                        <ComboBoxItem>In Relationship</ComboBoxItem>
+                        <ComboBoxItem>Separated</ComboBoxItem>
+                    </toolkit:WatermarkComboBox>
+                </Grid>
+
+                <!-- Partner info -->
+                <Grid Grid.Row="5" Margin="0,50,0,0" Visibility="{Binding ElementName=MaritalStatusComboBox, Path=SelectedItem, 
+                      Converter={StaticResource MaritalStatusToVisibility}}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Margin="20,0,0,0" FontSize="20" Text="Partner Information"/>
+                    <Grid Grid.Row="0" Margin="0,30,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="0.25*"/>
+                        </Grid.ColumnDefinitions>
+                        <toolkit:WatermarkTextBox Grid.Column="0" Margin="20,0,20,0" VerticalAlignment="Center" Height="28" FontSize="14"  
+                                                  Watermark="First Name" Text="{Binding ViewModel.PartnerFirstName, UpdateSourceTrigger=PropertyChanged}"/>
+                        <toolkit:WatermarkTextBox Grid.Column="1"  Margin="0,0,20,0" VerticalAlignment="Center" Height="28" FontSize="14" 
+                                                  Watermark="Last Name" Text="{Binding ViewModel.PartnerLastName, UpdateSourceTrigger=PropertyChanged}"/>
+                        <toolkit:WatermarkTextBox Grid.Column="2"  Margin="0,0,20,0" VerticalAlignment="Center" Height="28" FontSize="14"  
+                                                  Watermark="MI" Text="{Binding ViewModel.PartnerMiddleInit, UpdateSourceTrigger=PropertyChanged}"/>
+                    </Grid>
+                    <Grid Grid.Row="1" Margin="0,50,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.75*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <toolkit:IntegerUpDown Grid.Column="0" Margin="20,0,20,0" VerticalAlignment="Center" Height="28" FontSize="14"  
+                                               Watermark="Age" Minimum="0" Maximum="100" Value="{Binding ViewModel.PartnerAge}"/>
+                        <toolkit:WatermarkTextBox Grid.Column="1"  Margin="0,0,20,0" VerticalAlignment="Center" Height="28" FontSize="14"  
+                                                  Watermark="Employer" Text="{Binding ViewModel.PartnerWork, UpdateSourceTrigger=PropertyChanged}"/>
+                        <toolkit:WatermarkComboBox Grid.Column="2"  Margin="0,0,20,0" VerticalAlignment="Center" Height="28" FontSize="14"  
+                                                   Watermark="Living Together?" SelectedItem="{Binding ViewModel.LiveTogether,
+                                                   Converter={StaticResource BoolToString}}">
+                            <ComboBoxItem>Yes</ComboBoxItem>
+                            <ComboBoxItem>No</ComboBoxItem>
+                        </toolkit:WatermarkComboBox>
+                        <toolkit:WatermarkComboBox Grid.Column="3"  Margin="0,0,20,0" VerticalAlignment="Center" Height="28" FontSize="14" 
+                                                   Watermark="Is Supportive?" SelectedItem="{Binding ViewModel.Supportive,
+                                                   Converter={StaticResource BoolToString}}">
+                            <ComboBoxItem>Yes</ComboBoxItem>
+                            <ComboBoxItem>No</ComboBoxItem>
+                        </toolkit:WatermarkComboBox>
+                    </Grid>
+                </Grid>
+
+                <!-- Other info -->
+                <Grid Grid.Row="6" Margin="0,50,0,50">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <toolkit:WatermarkComboBox Grid.Column="0" Margin="20,0,20,0" VerticalAlignment="Center" Height="28" FontSize="14" 
+                                               Watermark="Received Services Before?">
+                        <ComboBoxItem>Yes</ComboBoxItem>
+                        <ComboBoxItem>No</ComboBoxItem>
+                    </toolkit:WatermarkComboBox>
+                    <toolkit:WatermarkTextBox Grid.Column="1" Margin="0,0,20,0" VerticalAlignment="Center" Height="28" FontSize="14"  
+                                              Watermark="Referred by..." Text="{Binding ViewModel.ReferralSource, UpdateSourceTrigger=PropertyChanged}"/>
+                </Grid>
+            </Grid>
+        </ScrollViewer>
+    </Border>
+</UserControl>

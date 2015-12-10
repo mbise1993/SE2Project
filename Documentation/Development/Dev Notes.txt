@@ -1,0 +1,16 @@
+1. Use string instead of char
+2. When pulling int field from database, cast to Int64 then cast to int 
+	Example: (int)((Int64)reader["someNumber"])
+3. Make constructors that accept all fields OR use initializer lists 
+	Example: Client client = new Client
+		 {
+		     ClientID = (string)reader["ClientID"],
+		     FirstName = (string)reader["FirstName"],
+		     LastName = (string)reader["LastName"],
+		     MiddleInit = (string)reader["MiddleInit"],
+		     .
+		     .
+		     .
+		     etc.
+		 };
+4. If there is no value for a field in the database, the reader returns the type System.DBNull

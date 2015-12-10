@@ -1,0 +1,511 @@
+﻿<Window x:Class="HopeHouse.Exe.Windows.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
+        xmlns:local="clr-namespace:HopeHouse.Exe"
+        xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:viewModels="clr-namespace:HopeHouse.Presentation.ViewModels;assembly=HopeHouse.Presentation"
+        xmlns:dataAccess="clr-namespace:HopeHouse.Core.DataAccess;assembly=HopeHouse.Core"
+        xmlns:controls="clr-namespace:HopeHouse.Exe.Controls"
+        mc:Ignorable="d" Title="Hope House Client Management System" WindowState="Maximized" 
+        Loaded="MainWindow_Loaded" Closed="MainWindow_Closed">
+    <!-- Set data context of window -->
+    <Window.DataContext>
+        <viewModels:MainWindowViewModel/>
+    </Window.DataContext>
+    
+    <!-- Resources local to MainWindow -->
+    <Window.Resources>
+        
+        <!-- Data Templates -->
+        <DataTemplate x:Key="CloseTabItemHeaderTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock x:Name="TabHeaderTextBlock" Grid.Column="0"  VerticalAlignment="Center" HorizontalAlignment="Left"
+                           Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type TabItem}}, Path=Header}"/>
+                <Button Grid.Column="1"  VerticalAlignment="Center" HorizontalAlignment="Right"  Style="{StaticResource TransparentButtonStyle}"
+                        Click="TabItemCloseButton_OnClick" Height="18" Margin="6,0,0,0"
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type TabItem}}}">
+                    <Image Height="10" Source="pack://application:,,,/HopeHouse.Common;component/Resources/DeleteBlack.png"/>
+                </Button>
+            </Grid>
+        </DataTemplate>
+        
+        <DataTemplate x:Key="FilterButtonTemplate" DataType="{x:Type dataAccess:Filter}">
+            <Button Margin="4,2,4,2" Style="{StaticResource BaseButtonStyle}">
+                <DockPanel LastChildFill="False">
+                    <TextBlock DockPanel.Dock="Left" Margin="4,2,4,2" FontSize="10" Text="{Binding DisplayValue}"/>
+                    <Button DockPanel.Dock="Right" Style="{StaticResource TransparentButtonStyle}" Margin="4,2,4,2"
+                            Command="{Binding DataContext.DeleteFilterCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                            CommandParameter="{Binding}">
+                        <Image Height="9" Source="pack://application:,,,/HopeHouse.Common;component/Resources/DeleteWhite.png"/>
+                    </Button>
+                </DockPanel>
+            </Button>
+        </DataTemplate>
+        
+        <!-- Styles -->
+        <Style x:Key="DropDownButtonStyle" TargetType="{x:Type toolkit:DropDownButton}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="toolkit:DropDownButton">
+                        <Grid Name="MainGrid" SnapsToDevicePixels="True">
+                            <ToggleButton Grid.Column="1" IsChecked="{Binding Path=IsOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" 
+                                          Name="PART_DropDownButton">
+                                <ToggleButton.IsHitTestVisible>
+                                    <Binding Path="IsOpen" RelativeSource="{RelativeSource TemplatedParent}">
+                                        <Binding.Converter>
+                                            <toolkit:InverseBoolConverter />
+                                        </Binding.Converter>
+                                    </Binding>
+                                </ToggleButton.IsHitTestVisible>
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="ToggleButton">
+                                        <Grid x:Name="Grid">
+                                            <Border CornerRadius="2" BorderBrush="Transparent">
+                                                <ContentPresenter Content="{TemplateBinding ContentControl.Content}" ContentStringFormat="{TemplateBinding ContentControl.ContentStringFormat}" 
+                                                          ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}" />
+                                            </Border>
+                                        </Grid>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                                <Grid>
+                                    <toolkit:ButtonChrome CornerRadius="2.75" InnerCornerRadius="1.75" Name="ToggleButtonChrome" RenderChecked="{TemplateBinding toolkit:DropDownButton.IsOpen}" 
+                                                          RenderEnabled="{TemplateBinding UIElement.IsEnabled}" RenderMouseOver="{Binding Path=IsMouseOver, ElementName=PART_DropDownButton}" 
+                                                          RenderPressed="{Binding Path=IsPressed, ElementName=PART_DropDownButton}">
+                                        <Grid  Background="#2895CF">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <ContentPresenter Content="{TemplateBinding ContentControl.Content}" ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}" 
+                                                              HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}" Margin="{TemplateBinding Control.Padding}" 
+                                                              RecognizesAccessKey="True" VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}" />
+                                        </Grid>
+                                    </toolkit:ButtonChrome>
+                                </Grid>
+                            </ToggleButton>
+                            <Popup AllowsTransparency="True" Focusable="False" HorizontalOffset="1" IsOpen="{Binding Path=IsChecked, ElementName=PART_DropDownButton}" Name="PART_Popup" 
+                                   Placement="Bottom" StaysOpen="False" VerticalOffset="1">
+                                <Border BorderThickness="1">
+                                    <Border.Background>
+                                        <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                            <GradientStop Color="White" Offset="0" />
+                                            <GradientStop Color="#FFE8EBED" Offset="1" />
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <Border.BorderBrush>
+                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                            <GradientStop Color="#FFA3AEB9" Offset="0" />
+                                            <GradientStop Color="#FF8399A9" Offset="0.375" />
+                                            <GradientStop Color="#FF718597" Offset="0.375" />
+                                            <GradientStop Color="#FF617584" Offset="1" />
+                                        </LinearGradientBrush>
+                                    </Border.BorderBrush>
+                                    <ContentPresenter Content="{TemplateBinding toolkit:DropDownButton.DropDownContent}" Name="PART_ContentPresenter" />
+                                </Border>
+                            </Popup>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    
+    <!-- Use grid layout -->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Menu bar at top of page -->
+        <Menu Grid.Row="0" Margin="0,0,0,4">
+            <MenuItem Header="File">
+                <MenuItem Header="Exit" Command="{Binding ExitCommand}">
+                    <MenuItem.Icon>
+                        <Image Height="13" Source="pack://application:,,,/HopeHouse.Common;component/Resources/DeleteBlack.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Database">
+                <MenuItem Header="Backup Now" Command="{Binding BackupNowCommand}">
+                    <MenuItem.Icon>
+                        <Image Height="13" Source="pack://application:,,,/HopeHouse.Common;component/Resources/HDDBlack.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Change Backup Settings" Command="{Binding ChangeBackupSettingsCommand}">
+                    <MenuItem.Icon>
+                        <Image Height="13" Source="pack://application:,,,/HopeHouse.Common;component/Resources/SettingsBlack.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Administrator" Visibility="{Binding LoggedInUser.IsAdministrator, Converter={StaticResource BoolToVisibility}, 
+                      ConverterParameter=VisibleOnTrue}">
+                <MenuItem Header="View Staff Members" Command="{Binding ViewStaffMembersCommand}">
+                    <MenuItem.Icon>
+                        <Image Height="13" Source="pack://application:,,,/HopeHouse.Common;component/Resources/UsersBlack.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="View User Action Log" Command="{Binding ViewUserActionLogCommand}">
+                    <MenuItem.Icon>
+                        <Image Height="13" Source="pack://application:,,,/HopeHouse.Common;component/Resources/FullFileBlack.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Clear User Action Log" Command="{Binding ClearUserActionLogCommand}">
+                    <MenuItem.Icon>
+                        <Image Height="13" Source="pack://application:,,,/HopeHouse.Common;component/Resources/BlankFileBlack.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+        
+        <!-- Grid layout in second row of parent grid -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="1.8*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Client list and filtering controls in first column of parent grid -->
+            <Border Grid.Column="0" BorderBrush="Black" BorderThickness="0.5" Padding="4" Margin="4">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Grid housing filtering and client manipulation controls -->
+                    <Grid Grid.Row="0" Margin="0,0,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                          
+                        <!-- DockPanel for buttons -->
+                        <DockPanel Grid.Row="0" LastChildFill="False">
+                            <!-- Button for importing clients from file -->
+                            <Button DockPanel.Dock="Left" Margin="2,2,2,2" Style="{StaticResource BaseButtonStyle}" Height="30" Width="30"
+                                    ToolTip="Import Clients From File" Command="{Binding ImportClientsCommand}">
+                                <Image Height="18" Source="pack://application:,,,/HopeHouse.Common;component/Resources/ImportWhite.png"/>
+                            </Button>
+                            <!-- Button for adding a new client -->
+                            <Button DockPanel.Dock="Left" Margin="2,2,2,2" Style="{StaticResource BaseButtonStyle}" Height="30" Width="30"
+                                    ToolTip="Add New Client" Command="{Binding AddNewClientCommand}">
+                                <Image Height="18" Source="pack://application:,,,/HopeHouse.Common;component/Resources/AddUserWhite.png"/>
+                            </Button>
+                            <!-- Button for adding a filter -->
+                            <Button DockPanel.Dock="Right" Margin="2,2,2,2" Style="{StaticResource BaseButtonStyle}" Height="30" Width="30" 
+                                    ToolTip="Add Filter" Command="{Binding AddFilterCommand}">
+                                <Image Height="18" Source="pack://application:,,,/HopeHouse.Common;component/Resources/PlusWhite.png"/>
+                            </Button>
+                            <!-- Button for initiating a search -->
+                            <Button DockPanel.Dock="Right" Margin="2,2,2,2" Style="{StaticResource BaseButtonStyle}" Height="30" Width="30" 
+                                    ToolTip="Search" Command="{Binding SearchCommand}">
+                                <Image Height="18" Source="pack://application:,,,/HopeHouse.Common;component/Resources/SearchWhite.png"/>
+                            </Button>
+                            <!-- Drop down button for selecting a preset filter -->
+                            <toolkit:DropDownButton x:Name="DefaultFiltersButton" DockPanel.Dock="Right" Margin="2,2,2,2" Height="30" Width="30" 
+                                                    ToolTip="Select Preset Filter" Style="{StaticResource DropDownButtonStyle}">
+                                <toolkit:DropDownButton.Content>
+                                    <Image Height="18" Source="pack://application:,,,/HopeHouse.Common;component/Resources/FilterWhite.png"/>
+                                </toolkit:DropDownButton.Content>
+                                <toolkit:DropDownButton.DropDownContent>
+                                    <StackPanel Orientation="Vertical" Background="#2895CF">
+                                        <!-- Get all clients -->
+                                        <TextBlock Margin="4,8,4,4">
+                                            <Hyperlink TextDecorations="None" Foreground="White" Command="{Binding PresetFilterCommand}"
+                                                       CommandParameter="All" Click="PresetFilter_Click">
+                                                All Clients
+                                            </Hyperlink>
+                                        </TextBlock>
+                                        <Separator/>
+                                        <!-- Currently Active Clients filter -->
+                                        <TextBlock Margin="4,4,4,4">
+                                            <Hyperlink TextDecorations="None" Foreground="White" Command="{Binding PresetFilterCommand}"
+                                                       CommandParameter="CurrentlyActive" Click="PresetFilter_Click">
+                                                Currently Active Clients
+                                            </Hyperlink>
+                                        </TextBlock>
+                                        <Separator/>
+                                        <!-- Clients Added This Year filter -->
+                                        <TextBlock Margin="4,4,4,8">
+                                            <Hyperlink TextDecorations="None" Foreground="White" Command="{Binding PresetFilterCommand}"
+                                                       CommandParameter="AddedThisYear" Click="PresetFilter_Click">
+                                                Clients Added This Year
+                                            </Hyperlink>
+                                        </TextBlock>
+                                        <Separator/>
+                                    </StackPanel>
+                                </toolkit:DropDownButton.DropDownContent>
+                            </toolkit:DropDownButton>
+                        </DockPanel>
+           
+                        <!-- Grid for search controls -->
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="1.5*"/>
+                            </Grid.ColumnDefinitions>
+                            <toolkit:WatermarkComboBox Grid.Column="0" Margin="2,2,2,2" Watermark="Filter Type" ItemsSource="{Binding FilterTypeOptions}" 
+                                                       Height="28" FontSize="14" SelectedItem="{Binding SelectedFilterTypeString}"/>
+                            <toolkit:WatermarkComboBox Grid.Column="1" Margin="0,2,2,2" Watermark="Field" ItemsSource="{Binding FilterFieldOptions}"
+                                                       Height="28" FontSize="14" SelectedItem="{Binding SelectedFilterFieldString}"/>
+                            <!-- TextBox used for searching by string fields -->
+                            <toolkit:WatermarkTextBox x:Name="SearchTextBox" Grid.Column="2" Margin="0,2,2,2" Watermark="Value" 
+                                                      Height="28" FontSize="14" Text="{Binding FilterString, UpdateSourceTrigger=PropertyChanged}">
+                                <toolkit:WatermarkTextBox.Visibility>
+                                    <MultiBinding Converter="{StaticResource BoolToVisibilityMulti}" ConverterParameter="VisibleOnFalseFalse">
+                                        <Binding Path="IsBooleanFieldSelected"/>
+                                        <Binding Path="IsDateFieldSelected"/>
+                                    </MultiBinding>
+                                </toolkit:WatermarkTextBox.Visibility>
+                            </toolkit:WatermarkTextBox>
+                            <!-- ComboBox used for searching by boolean fields -->
+                            <toolkit:WatermarkComboBox x:Name="SearchComboBox" Grid.Column="2" Margin="0,2,2,2" Watermark="Value" 
+                                                      Height="28" FontSize="14" SelectedIndex="{Binding FilterString, 
+                                                      Converter={StaticResource BoolStringToIndex}}">
+                                <toolkit:WatermarkComboBox.Visibility>
+                                    <MultiBinding Converter="{StaticResource BoolToVisibilityMulti}" ConverterParameter="VisibleOnTrueFalse">
+                                        <Binding Path="IsBooleanFieldSelected"/>
+                                        <Binding Path="IsDateFieldSelected"/>
+                                    </MultiBinding>
+                                </toolkit:WatermarkComboBox.Visibility>
+                                <toolkit:WatermarkComboBox.Items>
+                                    <ComboBoxItem>Yes</ComboBoxItem>
+                                    <ComboBoxItem>No</ComboBoxItem>
+                                </toolkit:WatermarkComboBox.Items>
+                            </toolkit:WatermarkComboBox>
+                            <!-- ComboBoxes used for searching by date fields -->
+                            <Grid Grid.Column="2" Margin="0,2,2,2">
+                                <Grid.Visibility>
+                                    <MultiBinding Converter="{StaticResource BoolToVisibilityMulti}" ConverterParameter="VisibleOnFalseTrue">
+                                        <Binding Path="IsBooleanFieldSelected"/>
+                                        <Binding Path="IsDateFieldSelected"/>
+                                    </MultiBinding>
+                                </Grid.Visibility>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="1.3*"/>
+                                </Grid.ColumnDefinitions>
+                                <!-- Day -->
+                                <toolkit:WatermarkComboBox x:Name="SearchDayComboBox" Grid.Column="1" Margin="0,0,1,0" Watermark="Day" Height="28"
+                                                           FontSize="14" SelectedItem="{Binding FilterDay}" ItemsSource="{Binding FilterDayOptions}"/>
+                                <!-- Month -->
+                                <toolkit:WatermarkComboBox x:Name="SearchMonthComboBox" Grid.Column="0" Margin="0,0,1,0" Watermark="Month" Height="28"
+                                                           FontSize="14" SelectedItem="{Binding FilterMonth}" ItemsSource="{Binding FilterMonthOptions}"/>
+                                <!-- Year -->
+                                <toolkit:WatermarkComboBox x:Name="SearchYearComboBox" Grid.Column="2" Margin="0,0,0,0" Watermark="Year" Height="28"
+                                                           FontSize="14" SelectedItem="{Binding FilterYear}" ItemsSource="{Binding FilterYearOptions}"/>
+                            </Grid>
+                        </Grid>
+                        
+                        <!-- ItemsControl for applied filters -->
+                        <ItemsControl Grid.Row="2" Height="Auto" ItemTemplate="{StaticResource FilterButtonTemplate}" 
+                                      ItemsSource="{Binding AppliedFilters, diag:PresentationTraceSources.TraceLevel=High}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </Grid>
+
+                    <!-- Grid displayed when clients are being loaded from the database -->
+                    <Grid Grid.Row="1" Visibility="{Binding AreClientsLoaded, Converter={StaticResource BoolToVisibility},
+                          ConverterParameter=VisibleOnFalse}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="1.5*"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.Row="0" Orientation="Vertical" VerticalAlignment="Bottom">
+                            <controls:BusyIndicator HorizontalAlignment="Center" VerticalAlignment="Center" Width="60" Height="60"
+                                                    Visibility="{Binding AreClientsLoaded, Converter={StaticResource BoolToVisibility},
+                                                    ConverterParameter=VisibleOnFalse}"/>
+                            <StackPanel Margin="0,12,0,0" Orientation="Vertical" VerticalAlignment="Bottom">
+                                <TextBlock HorizontalAlignment="Center" FontSize="14" Text="Loading clients from database"/>
+                                <TextBlock HorizontalAlignment="Center" FontSize="14" Text="You will be able to search once load is complete"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Grid for displaying message -->
+                    <Grid Grid.Row="1">
+                        <Grid.Visibility>
+                            <MultiBinding Converter="{StaticResource BoolToVisibilityMulti}" ConverterParameter="VisibleOnFalseTrue">
+                                <Binding Path="IsClientOpInProgress"/>
+                                <Binding Path="IsClientListEmpty"/>
+                            </MultiBinding>
+                        </Grid.Visibility>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="1.5*"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.Row="0" Orientation="Vertical" VerticalAlignment="Bottom">
+                            <TextBlock HorizontalAlignment="Center" FontSize="14" Text="Select one of the preset filters above or"/>
+                            <TextBlock HorizontalAlignment="Center" FontSize="14" Text="perform a custom search to view clients"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Grid displayed while a search is in progress -->
+                    <Grid Grid.Row="1" Visibility="{Binding IsClientOpInProgress, Converter={StaticResource BoolToVisibility},
+                          ConverterParameter=VisibleOnTrue}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="1.5*"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.Row="0" Orientation="Vertical" VerticalAlignment="Bottom">
+                            <controls:BusyIndicator HorizontalAlignment="Center" VerticalAlignment="Center" Width="60" Height="60"
+                                                    Visibility="{Binding IsClientOpInProgress, Converter={StaticResource BoolToVisibility},
+                                                    ConverterParameter=VisibleOnTrue}"/>
+                            <TextBlock Margin="0,12,0,0" HorizontalAlignment="Center" FontSize="14" Text="Searching..."/>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Display search results -->
+                    <Grid Grid.Row="1">
+                        <Grid.Visibility>
+                            <MultiBinding Converter="{StaticResource BoolToVisibilityMulti}" ConverterParameter="VisibleOnFalseFalse">
+                                <Binding Path="IsClientOpInProgress"/>
+                                <Binding Path="IsClientListEmpty"/>
+                            </MultiBinding>
+                        </Grid.Visibility>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <!-- Display number of clients found -->
+                        <TextBlock Grid.Row="0" Margin="0,2,0,2" HorizontalAlignment="Left">
+                            <Run Text="Clients found: "/>
+                            <Run Text="{Binding Clients.Count, Mode=OneWay}"/>
+                        </TextBlock>
+                        <!-- Display client list -->
+                        <DataGrid Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" CanUserSortColumns="True"
+                              CanUserReorderColumns="True" ItemsSource="{Binding Clients}" SelectedItem="{Binding SelectedClient}"
+                              GridLinesVisibility="None" CellStyle="{StaticResource DefaultDataGridCellStyle}">
+                            <DataGrid.Resources>
+                                <Style TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource DefaultDataGridRowStyle}">
+                                    <EventSetter Event="MouseDoubleClick" Handler="DataGridRow_MouseDoubleClick"/>
+                                </Style>
+                            </DataGrid.Resources>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Width="*" Header="Name" Binding="{Binding}"/>
+                                <DataGridTemplateColumn Width="0.2*" Header="Delete">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Height="15" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                            Style="{StaticResource TransparentButtonStyle}" 
+                                            Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.DeleteClientCommand}"
+                                            CommandParameter="{Binding}">
+                                                <Image Height="13" Source="pack://application:,,,/HopeHouse.Common;component/Resources/DeleteBlack.png"/>
+                                            </Button>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </Grid>
+            </Border>
+
+            <!-- Grid layout in second column of parent grid -->
+            <Grid Grid.Column="1" Margin="0,4,4,4">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <!-- Image with logo/motto -->
+                <Image Grid.Row="0"/>
+
+                <!-- TabControl for displaying info/forms -->
+                <TabControl x:Name="InfoTabControl" Grid.Row="1" BorderBrush="Black" BorderThickness="0.5">
+                    <!-- TabItem for homescreen displayed when app starts -->
+                    <TabItem Header="Home" Padding="4">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="3*"/>
+                            </Grid.RowDefinitions>
+
+                            <!-- "Hope House" and slogan -->
+                            <StackPanel Grid.Row="0" Margin="2,2,2,4" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBlock HorizontalAlignment="Center" Text="Hope House" Foreground="#FF6D0EE6" FontSize="60" 
+                                           FontFamily="Kristen ITC"/>
+                                <TextBlock HorizontalAlignment="Center" Text="We Care About Life..." Foreground="#FF6D0EE6" FontSize="20"
+                                           FontFamily="Kristen ITC"/>
+                            </StackPanel>
+
+                            <!-- House logo -->
+                            <Image Grid.Row="1" Margin="2,2,2,4" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                   Source="pack://application:,,,/HopeHouse.Common;component/Resources/HouseLogo.jpg"/>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+            </Grid>
+        </Grid>
+
+        <!-- Status bar at bottom of page -->
+        <StatusBar Grid.Row="2">
+            <StatusBar.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </ItemsPanelTemplate>
+            </StatusBar.ItemsPanel>
+
+            <!-- Display name of logged in user -->
+            <StatusBarItem Grid.Column="0" Margin="4,0,4,0">
+                <TextBlock>
+                    <Run Text="Logged in as: "/>
+                    <Run Text="{Binding LoggedInUser.LastName}"/>
+                    <Run Text=", "/>
+                    <Run Text="{Binding LoggedInUser.FirstName}"/>
+                </TextBlock>
+            </StatusBarItem>
+
+            <Separator Grid.Column="1" Margin="4,0,4,0" Width="1"/>
+
+            <!-- TextBlock on left displaying number of clients -->
+            <StatusBarItem Grid.Column="2" Margin="4,0,4,0">
+                <TextBlock>
+                    <Run Text="Clients in system: "/>
+                    <Run Text="{Binding NumClientsInSystem, Mode=OneWay}"/>
+                </TextBlock>
+            </StatusBarItem>
+
+            <Separator Grid.Column="3" Margin="4,0,4,0" Width="1"/>
+
+            <!-- Display import status/progress -->
+            <StatusBarItem Grid.Column="4" Margin="4,0,4,0" Visibility="{Binding IsImportInProgress, Converter={StaticResource BoolToVisibility},
+                           ConverterParameter=VisibleOnTrue}">
+                <StackPanel Orientation="Horizontal">
+                    <controls:BusyIndicator HorizontalAlignment="Center" VerticalAlignment="Center" Width="13" Height="13"
+                                            Visibility="{Binding IsImportInProgress, Converter={StaticResource BoolToVisibility},
+                                            ConverterParameter=VisibleOnTrue}"/>
+                    <TextBlock Margin="4,0,0,0">
+                        <Run Text="Importing clients...("/>
+                        <Run Text="{Binding ClientsImported, Mode=OneWay}"/>
+                        <Run Text=")"/>
+                    </TextBlock>
+                </StackPanel>
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</Window>

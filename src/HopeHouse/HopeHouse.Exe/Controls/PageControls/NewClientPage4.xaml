@@ -1,0 +1,159 @@
+﻿<UserControl x:Class="HopeHouse.Exe.Controls.PageControls.NewClientPage4"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+             mc:Ignorable="d">
+    <Border BorderBrush="Black" BorderThickness="0.5" Margin="20">
+        <ScrollViewer Padding="20" VerticalScrollBarVisibility="Visible">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Header -->
+                <TextBlock Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30" Text="Services Requested"/>
+
+                <!-- Services available -->
+                <Grid Grid.Row="1" Margin="0,50,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="5*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <CheckBox Grid.Row="0" Grid.Column="0" Margin="20,0,20,30" HorizontalAlignment="Center" VerticalAlignment="Center"
+                          IsChecked="{Binding ViewModel.MaternityClothes}"/>
+                    <TextBlock Grid.Row="0" Grid.Column="1" Margin="0,0,20,30" HorizontalAlignment="Left" VerticalAlignment="Center"
+                           FontSize="14" Text="Maternity Clothes"/>
+
+                    <CheckBox Grid.Row="1" Grid.Column="0" Margin="20,0,20,30" HorizontalAlignment="Center" VerticalAlignment="Center"
+                          IsChecked="{Binding ViewModel.PersonalCare}"/>
+                    <TextBlock Grid.Row="1" Grid.Column="1" Margin="0,0,20,30" HorizontalAlignment="Left" VerticalAlignment="Center"
+                           FontSize="14" Text="Personal Care Items"/>
+
+                    <CheckBox Grid.Row="2" Grid.Column="0" Margin="20,0,20,30" HorizontalAlignment="Center" VerticalAlignment="Center"
+                          IsChecked="{Binding ViewModel.Food}"/>
+                    <TextBlock Grid.Row="2" Grid.Column="1" Margin="0,0,20,30" HorizontalAlignment="Left" VerticalAlignment="Center"
+                           FontSize="14" Text="Food"/>
+
+                    <CheckBox Grid.Row="3" Grid.Column="0" Margin="20,0,20,30" HorizontalAlignment="Center" VerticalAlignment="Center"
+                          IsChecked="{Binding ViewModel.PregnancyInfo}"/>
+                    <TextBlock Grid.Row="3" Grid.Column="1" Margin="0,0,20,30" HorizontalAlignment="Left" VerticalAlignment="Center"
+                           FontSize="14" Text="Pregnancy/Childbirth Information"/>
+
+                    <CheckBox Grid.Row="4" Grid.Column="0" Margin="20,0,20,30" HorizontalAlignment="Center" VerticalAlignment="Center"
+                          IsChecked="{Binding ViewModel.ParentingInfo}"/>
+                    <TextBlock Grid.Row="4" Grid.Column="1" Margin="0,0,20,30" HorizontalAlignment="Left" VerticalAlignment="Center"
+                           FontSize="14" Text="Parenting Information"/>
+
+                    <CheckBox Grid.Row="5" Grid.Column="0" Margin="20,0,20,30" HorizontalAlignment="Center" VerticalAlignment="Center"
+                          IsChecked="{Binding ViewModel.AdoptionInfo}"/>
+                    <TextBlock Grid.Row="5" Grid.Column="1" Margin="0,0,20,30" HorizontalAlignment="Left" VerticalAlignment="Center"
+                           FontSize="14" Text="Adoption Information"/>
+
+                    <CheckBox Grid.Row="6" Grid.Column="0" Margin="20,0,20,30" HorizontalAlignment="Center" VerticalAlignment="Center"
+                          IsChecked="{Binding ViewModel.AbortionInfo}"/>
+                    <TextBlock Grid.Row="6" Grid.Column="1" Margin="0,0,20,30" HorizontalAlignment="Left" VerticalAlignment="Center"
+                           FontSize="14" Text="Abortion Information"/>
+
+                    <CheckBox Grid.Row="7" Grid.Column="0" Margin="20,0,20,30" HorizontalAlignment="Center" VerticalAlignment="Center"
+                          IsChecked="{Binding ViewModel.EmotionalSupport}"/>
+                    <TextBlock Grid.Row="7" Grid.Column="1" Margin="0,0,20,30" HorizontalAlignment="Left" VerticalAlignment="Center"
+                           FontSize="14" Text="Emotional/Spiritual Support"/>
+
+                    <CheckBox Grid.Row="8" Grid.Column="0" Margin="20,0,20,30" HorizontalAlignment="Center" VerticalAlignment="Center"
+                          IsChecked="{Binding ViewModel.ChristianityInfo}"/>
+                    <TextBlock Grid.Row="8" Grid.Column="1" Margin="0,0,20,30" HorizontalAlignment="Left" VerticalAlignment="Center"
+                           FontSize="14" Text="Information on 'How to Become a Christian'"/>
+
+                    <CheckBox Grid.Row="9" Grid.Column="0" Margin="20,0,20,30" HorizontalAlignment="Center" VerticalAlignment="Center"
+                          IsChecked="{Binding ViewModel.HousingInfo}"/>
+                    <TextBlock Grid.Row="9" Grid.Column="1" Margin="0,0,20,30" HorizontalAlignment="Left" VerticalAlignment="Center"
+                           FontSize="14" Text="Housing During Pregnancy"/>
+
+                    <CheckBox Grid.Row="10" Grid.Column="0" Margin="20,0,20,30" HorizontalAlignment="Center" VerticalAlignment="Center"
+                          IsChecked="{Binding ViewModel.AbstinenceInfo}"/>
+                    <TextBlock Grid.Row="10" Grid.Column="1" Margin="0,0,20,30" HorizontalAlignment="Left" VerticalAlignment="Center"
+                           FontSize="14" Text="Abstinence Info"/>
+
+                    <CheckBox Grid.Row="11" Grid.Column="0" Margin="20,0,20,30" HorizontalAlignment="Center" VerticalAlignment="Center"
+                          IsChecked="{Binding ViewModel.NutritionInfo}"/>
+                    <TextBlock Grid.Row="11" Grid.Column="1" Margin="0,0,20,30" HorizontalAlignment="Left" VerticalAlignment="Center"
+                           FontSize="14" Text="Nutrition Info"/>
+
+                    <CheckBox Grid.Row="12" Grid.Column="0" Margin="20,0,20,30" HorizontalAlignment="Center" VerticalAlignment="Center"
+                          IsChecked="{Binding ViewModel.EmploymentInfo}"/>
+                    <TextBlock Grid.Row="12" Grid.Column="1" Margin="0,0,20,30" HorizontalAlignment="Left" VerticalAlignment="Center"
+                           FontSize="14" Text="Employment Info"/>
+
+                    <CheckBox Grid.Row="13" Grid.Column="0" Margin="20,0,20,30" HorizontalAlignment="Center" VerticalAlignment="Center"
+                          IsChecked="{Binding ViewModel.FinancialInfo}"/>
+                    <TextBlock Grid.Row="13" Grid.Column="1" Margin="0,0,20,30" HorizontalAlignment="Left" VerticalAlignment="Center"
+                           FontSize="14" Text="Financial Info"/>
+
+                    <CheckBox Grid.Row="14" Grid.Column="0" Margin="20,0,20,30" HorizontalAlignment="Center" VerticalAlignment="Center"
+                          IsChecked="{Binding ViewModel.BreastFeedingInfo}"/>
+                    <TextBlock Grid.Row="14" Grid.Column="1" Margin="0,0,20,30" HorizontalAlignment="Left" VerticalAlignment="Center"
+                           FontSize="14" Text="Breast Feeding Info"/>
+
+                    <CheckBox Grid.Row="15" Grid.Column="0" Margin="20,0,20,30" HorizontalAlignment="Center" VerticalAlignment="Center"
+                          IsChecked="{Binding ViewModel.FreshStartProgram}"/>
+                    <TextBlock Grid.Row="15" Grid.Column="1" Margin="0,0,20,30" HorizontalAlignment="Left" VerticalAlignment="Center"
+                           FontSize="14" Text="Fresh Start Program"/>
+
+                    <CheckBox Grid.Row="16" Grid.Column="0" Margin="20,0,20,30" HorizontalAlignment="Center" VerticalAlignment="Center"
+                          IsChecked="{Binding ViewModel.PointsProgram}"/>
+                    <TextBlock Grid.Row="16" Grid.Column="1" Margin="0,0,20,30" HorizontalAlignment="Left" VerticalAlignment="Center"
+                           FontSize="14" Text="Points Program"/>
+
+                    <CheckBox Grid.Row="17" Grid.Column="0" Margin="20,0,20,30" HorizontalAlignment="Center" VerticalAlignment="Center"
+                          IsChecked="{Binding ViewModel.LifeBridgeProgram}"/>
+                    <TextBlock Grid.Row="17" Grid.Column="1" Margin="0,0,20,30" HorizontalAlignment="Left" VerticalAlignment="Center"
+                           FontSize="14" Text="Life Bridge Program"/>
+
+                    <CheckBox Grid.Row="18" Grid.Column="0" Margin="20,0,20,30" HorizontalAlignment="Center" VerticalAlignment="Center"
+                          IsChecked="{Binding ViewModel.HopeHouseClasses}"/>
+                    <TextBlock Grid.Row="18" Grid.Column="1" Margin="0,0,20,30" HorizontalAlignment="Left" VerticalAlignment="Center"
+                           FontSize="14" Text="Hope House Classes"/>
+
+                    <CheckBox Grid.Row="19" Grid.Column="0" Margin="20,0,20,30" HorizontalAlignment="Center" VerticalAlignment="Center"
+                          IsChecked="{Binding ViewModel.PregnancyTest}"/>
+                    <TextBlock Grid.Row="19" Grid.Column="1" Margin="0,0,20,30" HorizontalAlignment="Left" VerticalAlignment="Center"
+                           FontSize="14" Text="Pregnancy Test"/>
+
+                    <toolkit:WatermarkTextBox Grid.Row="20" Grid.Column="1" Margin="0,0,20,30" VerticalAlignment="Center" Height="28" 
+                                          Watermark="Referrals" FontSize="14" Text="{Binding ViewModel.Referrals}"/>
+
+                    <toolkit:WatermarkTextBox Grid.Row="21" Grid.Column="1" Margin="0,0,20,30" VerticalAlignment="Center" Height="28" 
+                                          Watermark="Other" FontSize="14" Text="{Binding ViewModel.Other}"/>
+                </Grid>
+            </Grid>
+        </ScrollViewer>
+    </Border>
+</UserControl>

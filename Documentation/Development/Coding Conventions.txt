@@ -1,0 +1,33 @@
+* Use descriptive, meaningful names for all variables
+* Use _lowerCase style for private variables
+* Use CamelCase for all public fields / properties / events / delegates
+* Use CamelCase for all method names
+* Use CamelCase for all class names
+* Use ICamelCase for interfaces
+* Use lowerCase style for all local variables and parameter names
+* Put braces on next line
+* ALWAYS use braces for if / while / for statements
+* Specify properties with a backing private variable and define accessors on their own lines
+	Example: public List<string> Names
+		 {
+		     get
+		     {
+			 if(_names == null)
+			 {
+			     _names = new List<string>();
+			 }
+
+		         return _names;
+		     }
+		     set
+		     {
+		         if(value != null)
+			 {
+			     _names = value;
+			 }
+		     }
+		 }
+
+* Always add empty line after closing brace
+* Do not add whitespace after parenthesis in parameter lists / method calls
+	Example: public void Method(string param1, string param2);
