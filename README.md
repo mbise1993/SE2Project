@@ -23,6 +23,6 @@ customer, team management, Agile processes, database management, and deployment.
 
 **Technologies Used:**
   * C# and .NET for the language/framework
-  * WPF for the UI
+  * Windows Presentation Foundation (WPF) for the UI
   * SQLite for the database
   * Visual Studio for the IDE
